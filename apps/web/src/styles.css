@@ -167,3 +167,34 @@ th { top: 0; }
 @media (max-width: 720px) {
   .files { grid-template-columns: 1fr; }
 }
+
+/* Схема коммуникаций */
+.spacer { flex: 1; }
+.scheme-wrap { background: #fff; border: 1px solid var(--border); border-radius: 10px; overflow-x: auto; margin-bottom: 12px; }
+.comms-svg { display: block; width: 100%; min-width: 880px; height: auto; touch-action: none; user-select: none; }
+.comms-svg .draggable { cursor: grab; }
+.comms-svg .draggable:active { cursor: grabbing; }
+.comms-svg .clickable { cursor: pointer; }
+.scheme-panels { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; align-items: start; }
+.scheme-panels h2, .details h2 { font-size: 15px; margin-bottom: 10px; }
+.card.weak { border-color: var(--danger); }
+.card.weak h2 { color: var(--danger); }
+.legend { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.legend li { display: flex; align-items: center; gap: 10px; }
+.legend-sample { display: inline-flex; width: 40px; justify-content: center; }
+.findings { margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 6px; }
+.findings li { border-radius: 6px; }
+.findings li:hover, .findings li:focus { background: var(--bg); outline: none; }
+.checks { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 10px; }
+.check-item.confirmed p { color: var(--good); }
+.check-item.wrong p { color: var(--danger); }
+.check-actions { display: flex; gap: 6px; margin-top: 4px; }
+.check-actions .chip { padding: 2px 10px; font-size: 12px; }
+.answer { width: 100%; margin-top: 6px; font: inherit; color: var(--text); background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 6px 8px; resize: vertical; }
+.scheme-panels h3 { margin: 14px 0 6px; font-weight: 600; }
+.details { margin-bottom: 12px; }
+.details-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+.details dl { margin: 0 0 8px; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 6px 16px; }
+.details dt { font-size: 12px; color: var(--muted); }
+.details dd { margin: 0; }
+.weak-inline { color: var(--danger); margin-bottom: 8px; }

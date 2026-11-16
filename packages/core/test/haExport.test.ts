@@ -78,7 +78,7 @@ describe('generateHaExport для дачи', () => {
     const heating = pkg('hc_heating_boiler_power');
     expect(heating.climate).toHaveLength(1);
     expect(heating.climate[0]).toMatchObject({ heater: 'switch.boiler_power', target_sensor: 'sensor.hc_heating_boiler_power_min_temp' });
-    expect(heating.sensor[0].entity_ids).toEqual(['sensor.t_living', 'sensor.t_bedroom_1', 'sensor.t_boiler_room', 'sensor.t_water_inlet']);
+    expect(heating.sensor[0].entity_ids).toEqual(['sensor.t_living', 'sensor.t_upstairs', 'sensor.t_veranda', 'sensor.t_water_inlet']);
     expect(JSON.stringify(pkg('hc_preheat'))).toContain('climate.hc_heating_boiler_power');
   });
 

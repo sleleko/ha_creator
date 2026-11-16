@@ -47,6 +47,7 @@ describe('эталонная дача', () => {
 describe('validateProject', () => {
   it('ловит перегруз реле', () => {
     const p = dacha();
+    p.utilityNodes.find((n) => n.id === 'gas_boiler')!.powerW = 6000;
     p.automationPoints.find((x) => x.id === 'boiler_power')!.deviceSku = 'contactor-25a';
     const issues = validateProject(p, { devices, scenarios });
     expect(issues.some((i) => i.level === 'error' && i.message.includes('6000'))).toBe(true);
