@@ -139,3 +139,31 @@ select.status.estimate { background: var(--warn-soft); color: var(--warn); borde
   .dialog-foot { flex-wrap: wrap; }
   .dialog-foot .muted { flex-basis: 100%; }
 }
+
+.topnav { display: flex; gap: 4px; align-items: center; padding: 8px 16px; background: var(--surface); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 5; overflow-x: auto; }
+.brand { font-weight: 700; margin-right: 16px; white-space: nowrap; }
+.nav-link { font: inherit; color: var(--muted); background: none; border: 0; border-radius: 8px; padding: 6px 12px; cursor: pointer; white-space: nowrap; }
+.nav-link.active { color: var(--text); background: var(--accent-soft); font-weight: 600; }
+.link { font: inherit; color: var(--accent); background: none; border: 0; padding: 0; cursor: pointer; text-decoration: underline; }
+
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; margin-bottom: 12px; }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; }
+.card.total { background: var(--accent); border-color: var(--accent); color: var(--accent-text); }
+.card-value { font-size: 20px; font-weight: 700; font-variant-numeric: tabular-nums; margin-top: 2px; }
+.alert { margin-bottom: 12px; }
+.alert ul { margin: 6px 0 0; padding-left: 18px; }
+.section-row td { background: var(--bg); font-weight: 600; }
+tfoot .section-row td { border-bottom: 0; font-size: 15px; }
+th { top: 0; }
+
+.field { display: flex; flex-direction: column; gap: 4px; flex: 0 1 300px; }
+.field input.invalid { border-color: var(--danger); }
+.hint { flex: 1 1 260px; }
+.files { display: grid; grid-template-columns: minmax(200px, 280px) 1fr; gap: 12px; align-items: start; }
+.file-list { display: flex; flex-direction: column; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 6px; }
+.file { font: 12.5px ui-monospace, Menlo, Consolas, monospace; text-align: left; color: var(--text); background: none; border: 0; border-radius: 6px; padding: 6px 8px; cursor: pointer; overflow-wrap: anywhere; }
+.file.active { background: var(--accent-soft); }
+.file-view { margin: 0; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 14px; overflow: auto; max-height: 70vh; font: 12.5px/1.5 ui-monospace, Menlo, Consolas, monospace; white-space: pre; }
+@media (max-width: 720px) {
+  .files { grid-template-columns: 1fr; }
+}

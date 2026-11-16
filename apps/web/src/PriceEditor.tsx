@@ -8,9 +8,6 @@ import {
   formatDate,
   formatRub,
   isStale,
-  loadRepoCatalog,
-  loadSavedCatalog,
-  saveCatalog,
   toRows,
   toYaml,
   today,
@@ -24,8 +21,6 @@ import { exportXlsx } from './excel';
 import { ImportDialog } from './ImportDialog';
 
 type StatusFilter = 'all' | 'estimate' | 'verified' | 'stale' | 'changed';
-
-const repoCatalog = loadRepoCatalog();
 
 function PriceInput({ value, label, onCommit }: { value: number; label: string; onCommit: (v: number) => void }) {
   const [draft, setDraft] = useState<string | null>(null);
@@ -74,8 +69,13 @@ function SourceInput({ value, label, onCommit }: { value: string; label: string;
   );
 }
 
-export function PriceEditor() {
-  const [catalog, setCatalog] = useState<Catalog>(() => loadSavedCatalog(repoCatalog));
+interface Props {
+  catalog: Catalog;
+  repoCatalog: Catalog;
+  onChange: (update: (current: Catalog) => Catalog) => void;
+}
+
+export function PriceEditor({ catalog, repoCatalog, onChange: setCatalog }: Props) {
   const [kind, setKind] = useState<Kind>('devices');
   const [query, setQuery] = useState('');
   const [group, setGroup] = useState('');
@@ -84,17 +84,13 @@ export function PriceEditor() {
   const [notice, setNotice] = useState('');
 
   useEffect(() => {
-    saveCatalog(catalog === repoCatalog ? null : catalog);
-  }, [catalog]);
-
-  useEffect(() => {
     if (!notice) return;
     const t = setTimeout(() => setNotice(''), 6000);
     return () => clearTimeout(t);
   }, [notice]);
 
   const rows = useMemo(() => toRows(catalog, kind), [catalog, kind]);
-  const original = useMemo(() => new Map(toRows(repoCatalog, kind).map((r) => [r.key, r])), [kind]);
+  const original = useMemo(() => new Map(toRows(repoCatalog, kind).map((r) => [r.key, r])), [repoCatalog, kind]);
   const now = today();
 
   const isChanged = (r: PriceRow) => {
@@ -139,7 +135,7 @@ export function PriceEditor() {
 
   function resetAll() {
     if (!window.confirm('Сбросить все правки цен в комплектующих и работах и вернуться к каталогу из репозитория?')) return;
-    setCatalog(repoCatalog);
+    setCatalog(() => repoCatalog);
     setNotice('Правки сброшены.');
   }
 

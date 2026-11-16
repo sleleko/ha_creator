@@ -71,6 +71,24 @@ export function validateProject(project: Project, catalogs?: Catalogs): Issue[] 
     }
   }
 
+  if (catalogs) {
+    const extras = project.extras.flatMap((e) => {
+      const device = deviceBySku.get(e.sku);
+      if (!device) err(`extras.${e.sku}`, `В каталоге нет изделия ${e.sku}`);
+      return device ? [device] : [];
+    });
+    const used = (protocol: string) => project.automationPoints.some((p) => p.protocol === protocol);
+    if (!extras.some((d) => d.category === 'server') && project.site.haServer !== 'existing') {
+      warn('extras', 'В проекте нет сервера Home Assistant');
+    }
+    if (used('zigbee') && !extras.some((d) => d.category === 'coordinator' && d.protocol === 'zigbee')) {
+      warn('extras', 'Есть устройства Zigbee, но нет координатора');
+    }
+    if ((used('esphome') || used('wired')) && !extras.some((d) => d.category === 'controller')) {
+      warn('extras', 'Есть проводные датчики или ESPHome, но нет контроллера, к которому они подключаются');
+    }
+  }
+
   const templateById = new Map((catalogs?.scenarios ?? []).map((s) => [s.id, s]));
   for (const s of project.scenarios) {
     const path = `scenarios.${s.id}`;

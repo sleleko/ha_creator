@@ -55,7 +55,7 @@ scenarios:
       - { role: load, function: contactor, min: 0, note: Отключаемые нагрузки }
   - id: irrigation
     name: Автополив
-    description: Поливает по расписанию с учётом влажности почвы и пропускает полив при дожде.
+    description: Поливает по расписанию и пропускает полив, если почва уже влажная.
     requires:
       - { role: valve, function: irrigation_valve, min: 1 }
       - { role: soil, function: soil_moisture, min: 0 }

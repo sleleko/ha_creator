@@ -101,5 +101,25 @@
     { "id": "watering", "templateId": "irrigation", "bindings": { "valve": ["irrigation_1"], "soil": ["soil_1"] } },
     { "id": "pump", "templateId": "pump_protection", "bindings": { "pump": ["pump_relay"], "pressure": ["water_pressure"] } }
   ],
+  "extras": [
+    { "sku": "ha-green", "qty": 1, "note": "Сервер Home Assistant" },
+    { "sku": "slzb-06", "qty": 1, "note": "Координатор Zigbee, в центре дома" },
+    { "sku": "ups-650va", "qty": 1, "note": "Питание сервера и роутера при отключениях" },
+    { "sku": "lte-antenna-mimo", "qty": 1 },
+    { "sku": "esp32-devkit", "qty": 1, "note": "Узел в котельной: температура трубы, давление, напряжение" },
+    { "sku": "psu-12v-2a-din", "qty": 1 },
+    { "sku": "din-box-12", "qty": 1, "note": "Бокс автоматики в котельной" },
+    { "sku": "breaker-c10", "qty": 2 },
+    { "sku": "cable-utp-5e", "qty": 30 },
+    { "sku": "cable-vvg-3x15", "qty": 15 }
+  ],
+  "extraWorks": [
+    { "workId": "survey", "qty": 1 },
+    { "workId": "panel_assembly", "qty": 1 },
+    { "workId": "cable_open", "qty": 30, "note": "UTP до координатора и узла ESP" },
+    { "workId": "cable_corrugated", "qty": 15 },
+    { "workId": "wall_pass", "qty": 3 },
+    { "workId": "owner_training", "qty": 1 }
+  ],
   "estimate": { "reservePercent": 10, "travelRub": 3000, "deliveryRub": 1500 }
 }
