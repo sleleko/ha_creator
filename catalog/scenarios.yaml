@@ -1,0 +1,74 @@
+# Каталог сценариев v0: восемь типовых сценариев для дачи.
+scenarios:
+  - id: frost_protection
+    name: Антизамерзание
+    description: Держит дежурную температуру в пустом доме и предупреждает, если она падает ниже порога.
+    requires:
+      - { role: temperature, function: temperature, min: 1, note: Датчики в отапливаемых помещениях и у ввода воды }
+      - { role: heater, function: contactor, min: 1, note: Управление котлом или обогревателями }
+    params:
+      - { key: standby_temp, label: Дежурная температура, default: 7, unit: "°C" }
+      - { key: alarm_temp, label: Порог тревоги, default: 3, unit: "°C" }
+  - id: leak_protection
+    name: Защита от протечек
+    description: При срабатывании любого датчика протечки перекрывает воду, отключает насос и шлёт уведомление.
+    requires:
+      - { role: leak, function: leak, min: 1 }
+      - { role: valve, function: valve, min: 1 }
+      - { role: pump, function: relay, min: 0, note: Питание скважинного насоса }
+    params:
+      - { key: auto_reopen, label: Открывать кран автоматически после высыхания, default: false }
+  - id: power_watch
+    name: Контроль питания и связи
+    description: Сообщает о пропадании и возврате электричества и о потере связи с домом.
+    requires:
+      - { role: voltage, function: voltage, min: 1 }
+      - { role: link, function: connectivity, min: 0 }
+    params:
+      - { key: min_voltage, label: Нижний порог напряжения, default: 190, unit: В }
+      - { key: max_voltage, label: Верхний порог напряжения, default: 250, unit: В }
+  - id: preheat_arrival
+    name: Прогрев к приезду
+    description: По команде или расписанию поднимает температуру с дежурной до комфортной к заданному времени.
+    requires:
+      - { role: temperature, function: temperature, min: 1 }
+      - { role: heater, function: contactor, min: 1 }
+    params:
+      - { key: comfort_temp, label: Комфортная температура, default: 21, unit: "°C" }
+      - { key: lead_hours, label: За сколько часов начинать, default: 6, unit: ч }
+  - id: security_away
+    name: Охрана в отсутствие
+    description: В режиме «Никого нет» движение или открытие двери включает сирену и отправляет уведомление.
+    requires:
+      - { role: door, function: door, min: 1 }
+      - { role: motion, function: motion, min: 1 }
+      - { role: siren, function: siren, min: 0 }
+      - { role: camera, function: camera, min: 0 }
+    params:
+      - { key: entry_delay, label: Задержка на вход, default: 30, unit: с }
+  - id: fire_alarm
+    name: Пожарная тревога
+    description: При дыме включает сирену, отключает нагрузки и шлёт уведомление.
+    requires:
+      - { role: smoke, function: smoke, min: 1 }
+      - { role: siren, function: siren, min: 0 }
+      - { role: load, function: contactor, min: 0, note: Отключаемые нагрузки }
+  - id: irrigation
+    name: Автополив
+    description: Поливает по расписанию с учётом влажности почвы и пропускает полив при дожде.
+    requires:
+      - { role: valve, function: irrigation_valve, min: 1 }
+      - { role: soil, function: soil_moisture, min: 0 }
+    params:
+      - { key: start_time, label: Время начала, default: "06:00" }
+      - { key: duration_min, label: Длительность на зону, default: 20, unit: мин }
+      - { key: soil_threshold, label: Не поливать при влажности выше, default: 60, unit: "%" }
+  - id: pump_protection
+    name: Защита насоса и контроль давления
+    description: Отключает насос при долгой непрерывной работе или падении давления и предупреждает владельца.
+    requires:
+      - { role: pump, function: relay, min: 1 }
+      - { role: pressure, function: water_pressure, min: 0 }
+    params:
+      - { key: max_run_min, label: Максимум непрерывной работы, default: 30, unit: мин }
+      - { key: min_pressure, label: Минимальное давление, default: 1.0, unit: бар }

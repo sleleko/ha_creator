@@ -1,0 +1,105 @@
+{
+  "schemaVersion": 1,
+  "site": {
+    "name": "Дача (эталонный объект, на допущениях)",
+    "region": "Московская область",
+    "occupancy": "seasonal",
+    "power": { "phases": 1, "allocatedKw": 15, "backup": "none" },
+    "internet": { "kind": "lte", "staticIp": false },
+    "haServer": "undecided"
+  },
+  "buildings": [
+    {
+      "id": "house", "name": "Дом", "kind": "house",
+      "floors": [
+        {
+          "id": "floor_1", "name": "Первый этаж", "level": 1,
+          "rooms": [
+            { "id": "hall", "name": "Прихожая", "kind": "hall", "areaM2": 8 },
+            { "id": "kitchen_living", "name": "Кухня-гостиная", "kind": "living", "areaM2": 30 },
+            { "id": "bathroom", "name": "Санузел", "kind": "bathroom", "areaM2": 6 },
+            { "id": "boiler_room", "name": "Котельная", "kind": "technical", "areaM2": 8 },
+            { "id": "veranda", "name": "Веранда", "kind": "veranda", "areaM2": 12, "heated": false }
+          ]
+        },
+        {
+          "id": "floor_2", "name": "Второй этаж", "level": 2,
+          "rooms": [
+            { "id": "hall_2", "name": "Холл второго этажа", "kind": "hall", "areaM2": 8 },
+            { "id": "bedroom_1", "name": "Спальня 1", "kind": "bedroom", "areaM2": 16 },
+            { "id": "bedroom_2", "name": "Спальня 2", "kind": "bedroom", "areaM2": 14 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sauna", "name": "Баня", "kind": "sauna",
+      "floors": [
+        { "id": "sauna_floor", "name": "Баня", "level": 1,
+          "rooms": [ { "id": "sauna_room", "name": "Баня", "kind": "sauna", "areaM2": 18, "heated": false } ] }
+      ]
+    },
+    {
+      "id": "yard", "name": "Участок", "kind": "yard",
+      "floors": [
+        { "id": "yard_ground", "name": "Участок", "level": 0,
+          "rooms": [ { "id": "garden", "name": "Участок", "kind": "outdoor", "areaM2": 800, "heated": false } ] }
+      ]
+    }
+  ],
+  "utilityNodes": [
+    { "id": "main_panel", "name": "Вводной щит", "layer": "electric", "kind": "panel", "roomId": "boiler_room" },
+    { "id": "boiler", "name": "Электрокотёл", "layer": "heating", "kind": "electric_boiler", "roomId": "boiler_room", "powerW": 6000 },
+    { "id": "water_heater", "name": "Бойлер", "layer": "water", "kind": "water_heater", "roomId": "bathroom", "powerW": 2000 },
+    { "id": "well_pump", "name": "Скважинный насос", "layer": "water", "kind": "well_pump", "roomId": "garden", "powerW": 1100 },
+    { "id": "hydro_tank", "name": "Гидроаккумулятор", "layer": "water", "kind": "pressure_tank", "roomId": "boiler_room" },
+    { "id": "water_inlet", "name": "Ввод воды в дом", "layer": "water", "kind": "inlet", "roomId": "boiler_room" },
+    { "id": "septic", "name": "Септик", "layer": "sewage", "kind": "septic", "roomId": "garden" },
+    { "id": "lte_router", "name": "Роутер 4G", "layer": "network", "kind": "router", "roomId": "hall" },
+    { "id": "garden_tap", "name": "Поливочный кран", "layer": "garden", "kind": "tap", "roomId": "garden" }
+  ],
+  "lines": [
+    { "id": "l_panel_boiler", "layer": "electric", "fromNodeId": "main_panel", "toNodeId": "boiler", "lengthM": 3, "spec": "ВВГнг 3×4" },
+    { "id": "l_panel_heater", "layer": "electric", "fromNodeId": "main_panel", "toNodeId": "water_heater", "lengthM": 8, "spec": "ВВГнг 3×2,5" },
+    { "id": "l_panel_pump", "layer": "electric", "fromNodeId": "main_panel", "toNodeId": "well_pump", "lengthM": 25, "spec": "ВБШв 3×2,5" },
+    { "id": "l_pump_tank", "layer": "water", "fromNodeId": "well_pump", "toNodeId": "hydro_tank", "lengthM": 25, "spec": "ПНД 32" },
+    { "id": "l_tank_inlet", "layer": "water", "fromNodeId": "hydro_tank", "toNodeId": "water_inlet", "lengthM": 1 },
+    { "id": "l_inlet_tap", "layer": "garden", "fromNodeId": "water_inlet", "toNodeId": "garden_tap", "lengthM": 12 }
+  ],
+  "automationPoints": [
+    { "id": "t_living", "name": "Температура в гостиной", "role": "sensor", "function": "temperature", "roomId": "kitchen_living", "protocol": "zigbee", "deviceSku": "aqara-temp-hum" },
+    { "id": "t_bedroom_1", "name": "Температура в спальне 1", "role": "sensor", "function": "temperature", "roomId": "bedroom_1", "protocol": "zigbee", "deviceSku": "sonoff-snzb-02d" },
+    { "id": "t_boiler_room", "name": "Температура в котельной", "role": "sensor", "function": "temperature", "roomId": "boiler_room", "protocol": "zigbee", "deviceSku": "aqara-temp-hum" },
+    { "id": "t_water_inlet", "name": "Температура трубы на вводе", "role": "sensor", "function": "temperature", "roomId": "boiler_room", "nodeId": "water_inlet", "protocol": "esphome", "deviceSku": "ds18b20-probe" },
+    { "id": "leak_bathroom", "name": "Протечка в санузле", "role": "sensor", "function": "leak", "roomId": "bathroom", "protocol": "zigbee", "deviceSku": "aqara-leak" },
+    { "id": "leak_kitchen", "name": "Протечка на кухне", "role": "sensor", "function": "leak", "roomId": "kitchen_living", "protocol": "zigbee", "deviceSku": "aqara-leak" },
+    { "id": "leak_boiler_room", "name": "Протечка в котельной", "role": "sensor", "function": "leak", "roomId": "boiler_room", "protocol": "zigbee", "deviceSku": "aqara-leak" },
+    { "id": "valve_main", "name": "Кран на вводе воды", "role": "actuator", "function": "valve", "roomId": "boiler_room", "nodeId": "water_inlet", "protocol": "zigbee", "deviceSku": "tuya-valve-zigbee" },
+    { "id": "pump_relay", "name": "Питание насоса", "role": "actuator", "function": "relay", "roomId": "boiler_room", "nodeId": "well_pump", "protocol": "zigbee", "deviceSku": "aqara-relay-t1" },
+    { "id": "water_pressure", "name": "Давление воды", "role": "sensor", "function": "water_pressure", "roomId": "boiler_room", "nodeId": "hydro_tank", "protocol": "wired", "deviceSku": "pressure-sensor-05-45" },
+    { "id": "boiler_power", "name": "Питание котла", "role": "actuator", "function": "contactor", "roomId": "boiler_room", "nodeId": "boiler", "protocol": "zigbee", "deviceSku": "tuya-din-relay-63a" },
+    { "id": "mains_voltage", "name": "Напряжение на вводе", "role": "sensor", "function": "voltage", "roomId": "boiler_room", "nodeId": "main_panel", "protocol": "esphome", "deviceSku": "pzem-004t" },
+    { "id": "internet_link", "name": "Связь с интернетом", "role": "sensor", "function": "connectivity", "roomId": "hall", "nodeId": "lte_router", "protocol": "ethernet", "deviceSku": "lte-router-keenetic" },
+    { "id": "door_entrance", "name": "Входная дверь", "role": "sensor", "function": "door", "roomId": "hall", "protocol": "zigbee", "deviceSku": "aqara-door" },
+    { "id": "door_veranda", "name": "Дверь веранды", "role": "sensor", "function": "door", "roomId": "veranda", "protocol": "zigbee", "deviceSku": "aqara-door" },
+    { "id": "motion_hall", "name": "Движение в прихожей", "role": "sensor", "function": "motion", "roomId": "hall", "protocol": "zigbee", "deviceSku": "aqara-motion-p1" },
+    { "id": "motion_living", "name": "Движение в гостиной", "role": "sensor", "function": "motion", "roomId": "kitchen_living", "protocol": "zigbee", "deviceSku": "aqara-motion-p1" },
+    { "id": "siren_hall", "name": "Сирена", "role": "actuator", "function": "siren", "roomId": "hall", "protocol": "zigbee", "deviceSku": "tuya-siren" },
+    { "id": "smoke_kitchen", "name": "Дым на кухне", "role": "sensor", "function": "smoke", "roomId": "kitchen_living", "protocol": "zigbee", "deviceSku": "aqara-smoke" },
+    { "id": "smoke_hall_2", "name": "Дым на втором этаже", "role": "sensor", "function": "smoke", "roomId": "hall_2", "protocol": "zigbee", "deviceSku": "aqara-smoke" },
+    { "id": "cam_yard", "name": "Камера на участке", "role": "sensor", "function": "camera", "roomId": "garden", "protocol": "wifi", "deviceSku": "cam-wifi-tapo" },
+    { "id": "irrigation_1", "name": "Клапан полива", "role": "actuator", "function": "irrigation_valve", "roomId": "garden", "nodeId": "garden_tap", "protocol": "zigbee", "deviceSku": "tuya-irrigation-valve" },
+    { "id": "soil_1", "name": "Влажность почвы", "role": "sensor", "function": "soil_moisture", "roomId": "garden", "protocol": "zigbee", "deviceSku": "tuya-soil" }
+  ],
+  "scenarios": [
+    { "id": "frost", "templateId": "frost_protection", "bindings": { "temperature": ["t_living", "t_bedroom_1", "t_boiler_room", "t_water_inlet"], "heater": ["boiler_power"] }, "params": { "standby_temp": 7, "alarm_temp": 3 } },
+    { "id": "leak", "templateId": "leak_protection", "bindings": { "leak": ["leak_bathroom", "leak_kitchen", "leak_boiler_room"], "valve": ["valve_main"], "pump": ["pump_relay"] } },
+    { "id": "power", "templateId": "power_watch", "bindings": { "voltage": ["mains_voltage"], "link": ["internet_link"] } },
+    { "id": "preheat", "templateId": "preheat_arrival", "bindings": { "temperature": ["t_living", "t_bedroom_1"], "heater": ["boiler_power"] }, "params": { "comfort_temp": 21, "lead_hours": 6 } },
+    { "id": "security", "templateId": "security_away", "bindings": { "door": ["door_entrance", "door_veranda"], "motion": ["motion_hall", "motion_living"], "siren": ["siren_hall"], "camera": ["cam_yard"] } },
+    { "id": "fire", "templateId": "fire_alarm", "bindings": { "smoke": ["smoke_kitchen", "smoke_hall_2"], "siren": ["siren_hall"], "load": ["boiler_power"] } },
+    { "id": "watering", "templateId": "irrigation", "bindings": { "valve": ["irrigation_1"], "soil": ["soil_1"] } },
+    { "id": "pump", "templateId": "pump_protection", "bindings": { "pump": ["pump_relay"], "pressure": ["water_pressure"] } }
+  ],
+  "estimate": { "reservePercent": 10, "travelRub": 3000, "deliveryRub": 1500 }
+}

@@ -1,0 +1,14 @@
+{
+  "name": "ha-creator",
+  "private": true,
+  "version": "0.0.1",
+  "description": "Проектирование умного дома: коммуникации → автоматизация → комплектующие → смета → экспорт под Home Assistant",
+  "workspaces": ["packages/*", "apps/*"],
+  "scripts": {
+    "test": "npm run test --workspaces --if-present",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "build": "npm run build --workspaces --if-present",
+    "dev": "npm run dev --workspace @ha-creator/web"
+  },
+  "engines": { "node": ">=20" }
+}

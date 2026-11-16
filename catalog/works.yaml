@@ -1,0 +1,27 @@
+# Справочник расценок на работы v0. Все цены — ориентиры (estimate), уточняются по региону и исполнителю.
+works:
+  - { id: survey, name: Обследование объекта и обмеры, unit: выезд, priceRub: 5000, priceDate: "2026-11-16", priceStatus: estimate }
+  - { id: travel, name: Выезд на объект за город, unit: выезд, priceRub: 3000, priceDate: "2026-11-16", priceStatus: estimate }
+  - { id: install_battery_sensor, name: Установка беспроводного датчика, unit: шт, priceRub: 400, priceDate: "2026-11-16", priceStatus: estimate, appliesTo: [temperature, humidity, leak, motion, door, light_level, soil_moisture] }
+  - { id: install_smoke_sensor, name: Установка датчика дыма на потолок, unit: шт, priceRub: 600, priceDate: "2026-11-16", priceStatus: estimate, appliesTo: [smoke] }
+  - { id: install_relay_box, name: Монтаж реле в подрозетник, unit: шт, priceRub: 1200, priceDate: "2026-11-16", priceStatus: estimate, appliesTo: [relay, dimmer] }
+  - { id: install_din_module, name: Монтаж модуля на DIN-рейку с подключением, unit: шт, priceRub: 1500, priceDate: "2026-11-16", priceStatus: estimate, appliesTo: [contactor, power_meter, voltage] }
+  - { id: install_valve, name: Врезка крана с электроприводом, unit: шт, priceRub: 3500, priceDate: "2026-11-16", priceStatus: estimate, appliesTo: [valve] }
+  - { id: install_pressure_sensor, name: Врезка датчика давления, unit: шт, priceRub: 2000, priceDate: "2026-11-16", priceStatus: estimate, appliesTo: [water_pressure] }
+  - { id: install_trv, name: Установка термоголовки на радиатор, unit: шт, priceRub: 500, priceDate: "2026-11-16", priceStatus: estimate, appliesTo: [thermostat] }
+  - { id: install_siren, name: Установка сирены, unit: шт, priceRub: 600, priceDate: "2026-11-16", priceStatus: estimate, appliesTo: [siren] }
+  - { id: install_camera, name: Монтаж и настройка уличной камеры, unit: шт, priceRub: 3500, priceDate: "2026-11-16", priceStatus: estimate, appliesTo: [camera] }
+  - { id: install_irrigation_valve, name: Установка клапана полива, unit: шт, priceRub: 800, priceDate: "2026-11-16", priceStatus: estimate, appliesTo: [irrigation_valve] }
+  - { id: cable_open, name: Прокладка кабеля открыто в кабель-канале, unit: м, priceRub: 150, priceDate: "2026-11-16", priceStatus: estimate }
+  - { id: cable_corrugated, name: Прокладка кабеля в гофре, unit: м, priceRub: 120, priceDate: "2026-11-16", priceStatus: estimate }
+  - { id: cable_outdoor, name: Прокладка кабеля по улице, unit: м, priceRub: 250, priceDate: "2026-11-16", priceStatus: estimate }
+  - { id: wall_pass, name: Проход через стену, unit: шт, priceRub: 700, priceDate: "2026-11-16", priceStatus: estimate }
+  - { id: panel_assembly, name: Сборка слаботочного бокса автоматики, unit: компл, priceRub: 6000, priceDate: "2026-11-16", priceStatus: estimate }
+  - { id: esp_node, name: Сборка и прошивка узла ESPHome, unit: шт, priceRub: 2500, priceDate: "2026-11-16", priceStatus: estimate }
+  - { id: ha_install, name: Установка и базовая настройка Home Assistant, unit: компл, priceRub: 8000, priceDate: "2026-11-16", priceStatus: estimate }
+  - { id: zigbee_network, name: Развёртывание сети Zigbee и сопряжение устройств, unit: шт, priceRub: 150, priceDate: "2026-11-16", priceStatus: estimate, notes: За одно устройство }
+  - { id: network_setup, name: "Настройка роутера, LTE и удалённого доступа", unit: компл, priceRub: 4000, priceDate: "2026-11-16", priceStatus: estimate }
+  - { id: scenario_setup, name: Настройка и проверка одного сценария, unit: шт, priceRub: 1500, priceDate: "2026-11-16", priceStatus: estimate }
+  - { id: dashboard_setup, name: Настройка панели управления и уведомлений, unit: компл, priceRub: 5000, priceDate: "2026-11-16", priceStatus: estimate }
+  - { id: commissioning, name: Пусконаладка и сдача системы, unit: компл, priceRub: 6000, priceDate: "2026-11-16", priceStatus: estimate }
+  - { id: owner_training, name: Обучение владельца и инструкция, unit: час, priceRub: 2000, priceDate: "2026-11-16", priceStatus: estimate }
