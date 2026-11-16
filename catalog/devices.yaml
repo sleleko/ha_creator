@@ -1,0 +1,60 @@
+# Каталог комплектующих v0. Все цены — ориентиры (priceStatus: estimate), не сверены с магазинами.
+# Перед расчётом настоящей сметы цены нужно проверить и поставить priceStatus: verified, source и priceDate.
+devices:
+  # --- Сервер и инфраструктура ---
+  - { sku: ha-green, name: Home Assistant Green, brand: Nabu Casa, category: server, protocol: ethernet, power: dc, priceRub: 14000, priceDate: "2026-11-16", priceStatus: estimate, notes: Готовый сервер HA }
+  - { sku: rpi5-8gb-kit, name: "Raspberry Pi 5 8 ГБ, корпус, БП, NVMe 256 ГБ", brand: Raspberry Pi, category: server, protocol: ethernet, power: usb, unit: компл, priceRub: 17000, priceDate: "2026-11-16", priceStatus: estimate }
+  - { sku: minipc-n100, name: "Мини-ПК Intel N100, 8/256 ГБ", brand: Beelink, category: server, protocol: ethernet, power: dc, priceRub: 16000, priceDate: "2026-11-16", priceStatus: estimate }
+  - { sku: slzb-06, name: "Координатор Zigbee SLZB-06 (Ethernet/PoE)", brand: SMLIGHT, category: coordinator, protocol: zigbee, power: poe, priceRub: 4500, priceDate: "2026-11-16", priceStatus: estimate, haIntegration: zha }
+  - { sku: sonoff-zbdongle-e, name: Координатор Zigbee ZBDongle-E, brand: Sonoff, category: coordinator, protocol: zigbee, power: usb, priceRub: 2500, priceDate: "2026-11-16", priceStatus: estimate, haIntegration: zha }
+  - { sku: ups-650va, name: "ИБП 650 ВА для сервера и роутера", brand: Ippon, category: power, protocol: none, power: mains, priceRub: 6500, priceDate: "2026-11-16", priceStatus: estimate }
+  - { sku: lte-router-keenetic, name: "Роутер с LTE-модемом (Keenetic Runner 4G)", brand: Keenetic, category: network, functions: [connectivity], protocol: ethernet, power: dc, priceRub: 9500, priceDate: "2026-11-16", priceStatus: estimate, haIntegration: keenetic_ndms2 }
+  - { sku: lte-antenna-mimo, name: "Антенна LTE MIMO наружная с кабелем", brand: Kroks, category: network, protocol: none, power: none, unit: компл, priceRub: 5500, priceDate: "2026-11-16", priceStatus: estimate }
+  - { sku: poe-switch-5, name: "Коммутатор PoE, 5 портов", brand: TP-Link, category: network, protocol: ethernet, power: mains, priceRub: 4000, priceDate: "2026-11-16", priceStatus: estimate }
+
+  # --- Датчики Zigbee ---
+  - { sku: aqara-temp-hum, name: Датчик температуры и влажности, brand: Aqara, category: sensor, functions: [temperature, humidity], protocol: zigbee, power: battery, priceRub: 1500, priceDate: "2026-11-16", priceStatus: estimate, haIntegration: zha }
+  - { sku: sonoff-snzb-02d, name: "Датчик температуры и влажности с экраном SNZB-02D", brand: Sonoff, category: sensor, functions: [temperature, humidity], protocol: zigbee, power: battery, priceRub: 1300, priceDate: "2026-11-16", priceStatus: estimate, haIntegration: zha }
+  - { sku: aqara-leak, name: Датчик протечки, brand: Aqara, category: sensor, functions: [leak], protocol: zigbee, power: battery, priceRub: 1600, priceDate: "2026-11-16", priceStatus: estimate, haIntegration: zha }
+  - { sku: tuya-leak, name: Датчик протечки Zigbee, brand: Tuya, category: sensor, functions: [leak], protocol: zigbee, power: battery, priceRub: 700, priceDate: "2026-11-16", priceStatus: estimate, haIntegration: zha }
+  - { sku: aqara-motion-p1, name: Датчик движения P1, brand: Aqara, category: sensor, functions: [motion, light_level], protocol: zigbee, power: battery, priceRub: 2200, priceDate: "2026-11-16", priceStatus: estimate, haIntegration: zha }
+  - { sku: sonoff-snzb-03p, name: Датчик движения SNZB-03P, brand: Sonoff, category: sensor, functions: [motion], protocol: zigbee, power: battery, priceRub: 1200, priceDate: "2026-11-16", priceStatus: estimate, haIntegration: zha }
+  - { sku: aqara-door, name: Датчик открытия двери и окна, brand: Aqara, category: sensor, functions: [door], protocol: zigbee, power: battery, priceRub: 1300, priceDate: "2026-11-16", priceStatus: estimate, haIntegration: zha }
+  - { sku: sonoff-snzb-04p, name: Датчик открытия SNZB-04P, brand: Sonoff, category: sensor, functions: [door], protocol: zigbee, power: battery, priceRub: 1000, priceDate: "2026-11-16", priceStatus: estimate, haIntegration: zha }
+  - { sku: aqara-smoke, name: Датчик дыма, brand: Aqara, category: sensor, functions: [smoke], protocol: zigbee, power: battery, priceRub: 3500, priceDate: "2026-11-16", priceStatus: estimate, haIntegration: zha }
+  - { sku: tuya-soil, name: Датчик влажности почвы Zigbee, brand: Tuya, category: sensor, functions: [soil_moisture, temperature], protocol: zigbee, power: battery, priceRub: 1500, priceDate: "2026-11-16", priceStatus: estimate, haIntegration: zha }
+
+  # --- Исполнители Zigbee и Wi-Fi ---
+  - { sku: aqara-relay-t1, name: "Реле в подрозетник T1 (с нулём), 10 А", brand: Aqara, category: actuator, functions: [relay, power_meter], protocol: zigbee, power: mains, maxLoadW: 2200, priceRub: 2300, priceDate: "2026-11-16", priceStatus: estimate, haIntegration: zha }
+  - { sku: sonoff-zbminil2, name: "Реле в подрозетник ZBMINIL2 (без нуля), 6 А", brand: Sonoff, category: actuator, functions: [relay], protocol: zigbee, power: mains, maxLoadW: 1300, priceRub: 1500, priceDate: "2026-11-16", priceStatus: estimate, haIntegration: zha }
+  - { sku: tuya-plug-16a, name: "Умная розетка Zigbee 16 А с учётом энергии", brand: Tuya, category: actuator, functions: [relay, power_meter], protocol: zigbee, power: mains, maxLoadW: 3500, priceRub: 1100, priceDate: "2026-11-16", priceStatus: estimate, haIntegration: zha }
+  - { sku: tuya-din-relay-63a, name: "Реле на DIN-рейку Zigbee 63 А с учётом энергии", brand: Tuya, category: actuator, functions: [contactor, power_meter, voltage], protocol: zigbee, power: mains, maxLoadW: 13800, priceRub: 2800, priceDate: "2026-11-16", priceStatus: estimate, haIntegration: zha }
+  - { sku: shelly-pro-1pm, name: "Реле на DIN-рейку Pro 1PM, 16 А", brand: Shelly, category: actuator, functions: [relay, power_meter], protocol: wifi, power: mains, maxLoadW: 3600, priceRub: 7500, priceDate: "2026-11-16", priceStatus: estimate, haIntegration: shelly }
+  - { sku: contactor-25a, name: "Контактор модульный 25 А, 2НО", brand: IEK, category: actuator, functions: [contactor], protocol: wired, power: mains, maxLoadW: 5500, priceRub: 1500, priceDate: "2026-11-16", priceStatus: estimate, notes: Управляется умным реле; нужен для котла и ТЭНов }
+  - { sku: moes-trv, name: Термоголовка на радиатор Zigbee, brand: Moes, category: actuator, functions: [thermostat], protocol: zigbee, power: battery, priceRub: 2500, priceDate: "2026-11-16", priceStatus: estimate, haIntegration: zha }
+  - { sku: moes-thermostat-floor, name: "Терморегулятор тёплого пола Zigbee, 16 А", brand: Moes, category: actuator, functions: [thermostat, temperature], protocol: zigbee, power: mains, maxLoadW: 3500, priceRub: 3500, priceDate: "2026-11-16", priceStatus: estimate, haIntegration: zha }
+  - { sku: tuya-siren, name: Сирена Zigbee, brand: Tuya, category: actuator, functions: [siren], protocol: zigbee, power: usb, priceRub: 1800, priceDate: "2026-11-16", priceStatus: estimate, haIntegration: zha }
+
+  # --- Вода ---
+  - { sku: neptun-valve-34, name: "Кран шаровой с электроприводом Bugatti Pro 3/4, 12 В", brand: Нептун, category: actuator, functions: [valve], protocol: wired, power: dc, priceRub: 7500, priceDate: "2026-11-16", priceStatus: estimate, notes: Управляется реле или модулем Нептун }
+  - { sku: tuya-valve-zigbee, name: "Привод на шаровой кран Zigbee", brand: Tuya, category: actuator, functions: [valve], protocol: zigbee, power: dc, priceRub: 2800, priceDate: "2026-11-16", priceStatus: estimate, haIntegration: zha }
+  - { sku: pressure-sensor-05-45, name: "Датчик давления воды 0–1,2 МПа, 0,5–4,5 В", brand: Generic, category: sensor, functions: [water_pressure], protocol: wired, power: dc, priceRub: 900, priceDate: "2026-11-16", priceStatus: estimate, notes: Подключается к ESP32 }
+  - { sku: tuya-irrigation-valve, name: Клапан полива на кран Zigbee, brand: Tuya, category: actuator, functions: [irrigation_valve], protocol: zigbee, power: battery, priceRub: 3000, priceDate: "2026-11-16", priceStatus: estimate, haIntegration: zha }
+
+  # --- Самодельные узлы и проводная шина ---
+  - { sku: esp32-devkit, name: Плата ESP32 DevKit, brand: Espressif, category: controller, protocol: esphome, power: usb, priceRub: 600, priceDate: "2026-11-16", priceStatus: estimate, haIntegration: esphome }
+  - { sku: ds18b20-probe, name: "Датчик температуры DS18B20 герметичный, 2 м", brand: Generic, category: sensor, functions: [temperature], protocol: esphome, power: dc, priceRub: 250, priceDate: "2026-11-16", priceStatus: estimate, haIntegration: esphome, notes: Для труб, котла и подпола }
+  - { sku: pzem-004t, name: "Измеритель энергии PZEM-004T, 100 А", brand: Peacefair, category: sensor, functions: [power_meter, voltage], protocol: esphome, power: mains, priceRub: 1200, priceDate: "2026-11-16", priceStatus: estimate, haIntegration: esphome }
+  - { sku: wb-controller-8, name: Контроллер Wiren Board 8, brand: Wiren Board, category: controller, protocol: modbus, power: dc, priceRub: 32000, priceDate: "2026-11-16", priceStatus: estimate, haIntegration: mqtt, notes: Вариант для проводной системы }
+  - { sku: wb-mr6c, name: "Модуль реле WB-MR6C v.2, 6 каналов", brand: Wiren Board, category: actuator, functions: [relay], protocol: modbus, power: dc, maxLoadW: 3500, priceRub: 11500, priceDate: "2026-11-16", priceStatus: estimate, haIntegration: mqtt }
+
+  # --- Видео ---
+  - { sku: cam-poe-4mp, name: "Камера уличная PoE 4 Мп, RTSP/ONVIF", brand: Hikvision, category: camera, functions: [camera], protocol: ethernet, power: poe, priceRub: 8500, priceDate: "2026-11-16", priceStatus: estimate, haIntegration: onvif }
+  - { sku: cam-wifi-tapo, name: "Камера уличная Wi-Fi Tapo C320WS", brand: TP-Link, category: camera, functions: [camera], protocol: wifi, power: dc, priceRub: 5500, priceDate: "2026-11-16", priceStatus: estimate, haIntegration: onvif }
+
+  # --- Материалы ---
+  - { sku: cable-utp-5e, name: "Кабель UTP cat 5e, медь", brand: Generic, category: material, protocol: none, power: none, unit: м, priceRub: 40, priceDate: "2026-11-16", priceStatus: estimate }
+  - { sku: cable-vvg-3x15, name: "Кабель ВВГнг(А)-LS 3×1,5", brand: Generic, category: material, protocol: none, power: none, unit: м, priceRub: 85, priceDate: "2026-11-16", priceStatus: estimate }
+  - { sku: din-box-12, name: "Бокс на 12 модулей, навесной", brand: IEK, category: material, protocol: none, power: none, priceRub: 900, priceDate: "2026-11-16", priceStatus: estimate }
+  - { sku: breaker-c10, name: "Автоматический выключатель 1P C10", brand: IEK, category: material, protocol: none, power: none, priceRub: 250, priceDate: "2026-11-16", priceStatus: estimate }
+  - { sku: psu-12v-2a-din, name: "Блок питания 12 В 2 А на DIN-рейку", brand: Mean Well, category: power, protocol: none, power: mains, priceRub: 1800, priceDate: "2026-11-16", priceStatus: estimate }
