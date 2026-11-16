@@ -118,6 +118,10 @@ export const Project = z.object({
   lines: z.array(Line).default([]),
   automationPoints: z.array(AutomationPoint).default([]),
   scenarios: z.array(ScenarioInstance).default([]),
+  /** Оборудование и материалы вне точек автоматизации: сервер, координатор, ИБП, кабель, боксы. */
+  extras: z.array(z.object({ sku: z.string().min(1), qty: z.number().positive(), note: z.string().optional() })).default([]),
+  /** Работы сверх тех, что считаются автоматически. */
+  extraWorks: z.array(z.object({ workId: Id, qty: z.number().positive(), note: z.string().optional() })).default([]),
   estimate: z
     .object({
       reservePercent: z.number().min(0).max(50).default(10),
