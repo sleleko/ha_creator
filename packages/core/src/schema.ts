@@ -161,6 +161,7 @@ export const WorkRate = z.object({
   priceStatus: z.enum(['verified', 'estimate']),
   /** К каким функциям точек расценка применяется автоматически. */
   appliesTo: z.array(PointFunction).default([]),
+  source: z.string().optional(),
   notes: z.string().optional(),
 });
 export type WorkRate = z.infer<typeof WorkRate>;
