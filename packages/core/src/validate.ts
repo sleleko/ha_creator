@@ -45,6 +45,22 @@ export function validateProject(project: Project, catalogs?: Catalogs): Issue[] 
   for (const l of project.lines) {
     if (!nodeIds.has(l.fromNodeId)) err(`lines.${l.id}`, `Нет узла ${l.fromNodeId}`);
     if (!nodeIds.has(l.toNodeId)) err(`lines.${l.id}`, `Нет узла ${l.toNodeId}`);
+    if (l.depthM !== undefined && l.laying !== 'underground') warn(`lines.${l.id}`, 'Глубина указана у линии, проложенной не в земле');
+  }
+  for (const id of duplicates(project.lines.flatMap((l) => l.fittings.map((f) => f.id)))) err(id, `Повторяющийся id среди кранов: ${id}`);
+  for (const id of duplicates(project.checks.map((c) => c.id))) err(id, `Повторяющийся id среди проверок: ${id}`);
+  for (const n of project.utilityNodes) {
+    if (n.poweredByNodeId && !nodeIds.has(n.poweredByNodeId)) err(`utilityNodes.${n.id}`, `Нет узла питания ${n.poweredByNodeId}`);
+  }
+
+  if (project.diagram) {
+    const zoneIds = new Set([...project.buildings.map((b) => b.id), ...roomIds]);
+    const lineIds = new Set(project.lines.map((l) => l.id));
+    for (const id of Object.keys(project.diagram.zones)) if (!zoneIds.has(id)) warn(`diagram.zones.${id}`, `На схеме зона ${id}, которой нет среди построек и помещений`);
+    for (const id of Object.keys(project.diagram.nodes)) if (!nodeIds.has(id)) warn(`diagram.nodes.${id}`, `На схеме узел ${id}, которого нет в проекте`);
+    for (const id of [...Object.keys(project.diagram.waypoints), ...Object.keys(project.diagram.labels)]) {
+      if (!lineIds.has(id)) warn(`diagram.lines.${id}`, `На схеме линия ${id}, которой нет в проекте`);
+    }
   }
 
   const deviceBySku = new Map((catalogs?.devices ?? []).map((d) => [d.sku, d]));

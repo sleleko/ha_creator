@@ -3,3 +3,5 @@ export * from './validate.js';
 export * from './priceImport.js';
 export * from './estimate.js';
 export * from './haExport.js';
+export * from './utilities.js';
+export * from './diagram.js';

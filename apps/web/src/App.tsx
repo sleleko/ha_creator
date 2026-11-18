@@ -3,9 +3,11 @@ import { loadRepoCatalog, loadSavedCatalog, saveCatalog, type Catalog } from './
 import { EstimatePage } from './EstimatePage';
 import { ExportPage } from './ExportPage';
 import { PriceEditor } from './PriceEditor';
+import { SchemePage } from './SchemePage';
 
-type Page = 'estimate' | 'prices' | 'export';
+type Page = 'scheme' | 'estimate' | 'prices' | 'export';
 const PAGES: { id: Page; label: string }[] = [
+  { id: 'scheme', label: 'Коммуникации' },
   { id: 'estimate', label: 'Смета' },
   { id: 'prices', label: 'Цены' },
   { id: 'export', label: 'Экспорт HA' },
@@ -43,6 +45,7 @@ export function App() {
           </button>
         ))}
       </nav>
+      {page === 'scheme' && <SchemePage />}
       {page === 'estimate' && <EstimatePage catalog={catalog} onOpenPrices={() => open('prices')} />}
       {page === 'prices' && <PriceEditor catalog={catalog} repoCatalog={repoCatalog} onChange={setCatalog} />}
       {page === 'export' && <ExportPage catalog={catalog} />}

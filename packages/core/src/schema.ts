@@ -18,6 +18,10 @@ export const Room = z.object({
   kind: z.enum(['living', 'bedroom', 'kitchen', 'bathroom', 'hall', 'technical', 'veranda', 'sauna', 'storage', 'outdoor']),
   areaM2: z.number().positive(),
   heated: z.boolean().default(true),
+  /** false — помещение не утеплено (на схеме рисуется пунктиром). */
+  insulated: z.boolean().optional(),
+  /** Пометка состояния для схемы: «не утеплён · подача перекрыта на зиму». */
+  notes: z.string().optional(),
   /** Контур помещения на плане этажа, метры. Необязателен до появления редактора. */
   outline: z.array(Point2D).min(3).optional(),
 });
@@ -33,7 +37,11 @@ export const Floor = z.object({
 export const Building = z.object({
   id: Id,
   name: z.string().min(1),
-  kind: z.enum(['house', 'sauna', 'shed', 'garage', 'yard']),
+  kind: z.enum(['house', 'sauna', 'shed', 'garage', 'yard', 'well', 'toilet']),
+  /** false — постройка не отапливается (на схеме рисуется пунктиром). */
+  heated: z.boolean().optional(),
+  /** Пометка под названием на схеме: «не отапливается · ~15 м от дома · Wi‑Fi нет». */
+  notes: z.string().optional(),
   floors: z.array(Floor).min(1),
 });
 
@@ -49,34 +57,111 @@ export const Site = z.object({
   internet: z.object({
     kind: z.enum(['lte', 'fiber', 'radio', 'none']),
     staticIp: z.boolean().default(false),
+    router: z.string().optional(),
   }),
+  /** Нормативная глубина промерзания грунта, м. Для Московской области около 1,4. */
+  frostDepthM: z.number().positive().default(1.4),
   haServer: z.enum(['undecided', 'raspberry_pi', 'mini_pc', 'ha_green', 'existing']).default('undecided'),
 });
+
+/**
+ * Состояние узла или линии на сегодня.
+ * active — работает; off — выключен; drained — слит на зиму; shut — перекрыт.
+ */
+export const UtilityState = z.enum(['active', 'off', 'drained', 'shut']);
+export type UtilityState = z.infer<typeof UtilityState>;
 
 /** Узел имеющихся коммуникаций: щит, котёл, насос, кран, розеточная группа и т. п. */
 export const UtilityNode = z.object({
   id: Id,
   name: z.string().min(1),
   layer: Layer,
+  /**
+   * Тип узла. Свободная строка; анализ схемы понимает: well_pump, well_head, pressure_tank, pressure_switch,
+   * filter, water_heater, inlet, gas_boiler, electric_boiler, radiator, panel, socket, router, fiber_input.
+   */
   kind: z.string().min(1),
   roomId: Id,
   position: Point2D.optional(),
   /** Электрическая мощность нагрузки, Вт (для подбора реле и контакторов). */
   powerW: z.number().nonnegative().optional(),
+  state: UtilityState.optional(),
+  /** Вторая строка подписи на схеме, например «ГВС-контур откл.». */
   notes: z.string().optional(),
+  /** Узел, от которого узел получает электропитание (щиток, розетка). */
+  poweredByNodeId: Id.optional(),
 });
 export type UtilityNode = z.infer<typeof UtilityNode>;
+
+/** Арматура на линии: кран, обратный клапан. */
+export const Fitting = z.object({
+  id: Id,
+  kind: z.enum(['shutoff', 'drain', 'check_valve']),
+  /** Положение крана сейчас. */
+  state: z.enum(['open', 'closed']).default('open'),
+  /** Подпись на схеме; по умолчанию «запорный», «сливной», «обратный клапан». */
+  label: z.string().optional(),
+  /** Где стоит: 0 — у начала линии, 1 — у конца. */
+  at: z.number().min(0).max(1).default(0.5),
+});
+export type Fitting = z.infer<typeof Fitting>;
 
 /** Линия между двумя узлами: кабель, труба, линия связи. */
 export const Line = z.object({
   id: Id,
+  /** Короткое имя для отчётов: «Труба к бане». */
+  name: z.string().optional(),
   layer: Layer,
   fromNodeId: Id,
   toNodeId: Id,
   lengthM: z.number().positive(),
   existing: z.boolean().default(true),
   spec: z.string().optional(),
+  state: UtilityState.optional(),
+  /** Как проложена: в земле, снаружи по воздуху, внутри помещений. */
+  laying: z.enum(['underground', 'outdoor', 'indoor']).optional(),
+  /** Глубина в земле, м (для laying: underground). */
+  depthM: z.number().nonnegative().optional(),
+  insulated: z.boolean().optional(),
+  /** Вдоль линии идёт греющий кабель. */
+  heatTrace: z.boolean().optional(),
+  fittings: z.array(Fitting).default([]),
+  /** Подпись у линии на схеме, например «ПВХ · глубина 1,5 м». */
+  label: z.string().optional(),
 });
+export type Line = z.infer<typeof Line>;
+
+/** Утверждение о схеме, которое нужно подтвердить на объекте. */
+export const SiteCheck = z.object({
+  id: Id,
+  text: z.string().min(1),
+  status: z.enum(['unverified', 'confirmed', 'wrong']).default('unverified'),
+  /** Ответ владельца, если утверждение неверно или уточнено. */
+  answer: z.string().optional(),
+});
+export type SiteCheck = z.infer<typeof SiteCheck>;
+
+const Rect = z.object({ x: z.number(), y: z.number(), w: z.number().positive(), h: z.number().positive() });
+
+/**
+ * Раскладка схемы коммуникаций: где на листе стоят зоны и узлы. Хранится отдельно от смысла,
+ * чтобы схему можно было перерисовать, не трогая описание объекта. Координаты — в пикселях листа.
+ */
+export const Diagram = z.object({
+  width: z.number().positive().default(1040),
+  height: z.number().positive().default(640),
+  /** Линия «поверхность земли», y на листе. */
+  groundY: z.number().optional(),
+  /** Прямоугольники зон: ключ — id постройки или помещения. */
+  zones: z.record(z.string(), Rect).default({}),
+  /** Центры узлов: ключ — id узла. */
+  nodes: z.record(z.string(), Point2D).default({}),
+  /** Промежуточные точки линий: ключ — id линии. Без них линия рисуется ломаной в два отрезка. */
+  waypoints: z.record(z.string(), z.array(Point2D)).default({}),
+  /** Положение подписи линии (line.label): ключ — id линии. По умолчанию — над самым длинным отрезком. */
+  labels: z.record(z.string(), Point2D).default({}),
+});
+export type Diagram = z.infer<typeof Diagram>;
 
 export const PointFunction = z.enum([
   'temperature', 'humidity', 'leak', 'motion', 'door', 'smoke', 'power_meter', 'voltage', 'water_pressure',
@@ -116,6 +201,9 @@ export const Project = z.object({
   buildings: z.array(Building).min(1),
   utilityNodes: z.array(UtilityNode).default([]),
   lines: z.array(Line).default([]),
+  /** Что владельцу нужно подтвердить на объекте. */
+  checks: z.array(SiteCheck).default([]),
+  diagram: Diagram.optional(),
   automationPoints: z.array(AutomationPoint).default([]),
   scenarios: z.array(ScenarioInstance).default([]),
   /** Оборудование и материалы вне точек автоматизации: сервер, координатор, ИБП, кабель, боксы. */
